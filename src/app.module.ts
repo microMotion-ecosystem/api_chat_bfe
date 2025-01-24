@@ -21,10 +21,12 @@ import { LlmController } from './controllers/llm.controller';
 import { LlmService } from './services/llm.service';
 import { AuthProxyService } from './services/auth-proxy.service';
 import { AuthController } from './controllers/auth.controller';
+import { ChatController } from './controllers/chat.controller';
+import { ChatService } from './services/chat.service';
 
 @Module({
   imports: [MongodbModule, HttpModule, RabbitMqConfigModule],
-  controllers: [AppController, LlmController, AuthController],
+  controllers: [AppController, LlmController, AuthController, ChatController],
   providers: [
     AppService,
     AuthApiService,
@@ -32,6 +34,7 @@ import { AuthController } from './controllers/auth.controller';
     MyHttpService,
     LlmService,
     AuthProxyService,
+    ChatService,
     {
       provide: APP_INTERCEPTOR,
       useClass: LoggerInterceptor,
