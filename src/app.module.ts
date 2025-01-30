@@ -13,7 +13,7 @@ import { CheckHeaderMiddleware } from './core/platform-key-middleware/check-head
 import { JwtStrategy } from './core/jwt-auth-guard/jwt.strategy';
 import { RabbitMqConfigModule } from './config/rabbitmq-config.module';
 import { RequestsLoggerMiddleware } from './core/requests-logger/requests-logger.middleware';
-import { APP_INTERCEPTOR } from '@nestjs/core';
+import { APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core';
 import { LoggerInterceptor } from './core/requests-logger/requests-logger.interceptor';
 import { AddXClientServiceNameInterceptor } from './core/add-xclient-service-name/add-xclient-service-name.interceptor';
 import { MyHttpService } from "./core/my-http-client-service/my-http.service";
@@ -23,10 +23,13 @@ import { AuthProxyService } from './services/auth-proxy.service';
 import { AuthController } from './controllers/auth.controller';
 import { ChatController } from './controllers/chat.controller';
 import { ChatService } from './services/chat.service';
+import { SessionService } from './services/session.service';
+import { SessionController } from './controllers/session.controller';
+import { CatchAppExceptionsFilter } from './core/error-handling/error.filter';
 
 @Module({
   imports: [MongodbModule, HttpModule, RabbitMqConfigModule],
-  controllers: [AppController, LlmController, AuthController, ChatController],
+  controllers: [AppController, LlmController, AuthController, ChatController, SessionController],
   providers: [
     AppService,
     AuthApiService,
@@ -43,6 +46,9 @@ import { ChatService } from './services/chat.service';
       provide: APP_INTERCEPTOR,
       useClass: AddXClientServiceNameInterceptor,
     },
+    SessionService,
+    { provide: APP_FILTER, useClass: CatchAppExceptionsFilter },
+
   ],
 })
 export class AppModule implements NestModule {

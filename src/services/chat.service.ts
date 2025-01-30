@@ -13,4 +13,5 @@ export class ChatService {
         const url = `${this.baseUrl}/${llm_type}`;
         return await firstValueFrom(this.httpService.post(url, data, header).pipe(map((item) => item.data)));
     }
+    async 
 }
