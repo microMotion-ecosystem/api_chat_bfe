@@ -40,6 +40,10 @@ export class SessionService {
         const url = `${this.baseUrl}/removeParticipant/${sessionId}`;
         return await firstValueFrom(this.httpService.delete(url, data, header).pipe(map((item) => item.data)));
     }
+    async renameSession(data:any,header:any,sessionId: string):Promise<any>{
+        const url = `${this.baseUrl}/rename/${sessionId}`;
+        return await firstValueFrom(this.httpService.patch(url, data, header).pipe(map((item) => item.data)));
+    }
     async removeSession(header:any,sessionId: string):Promise<any>{
         const url = `${this.baseUrl}/${sessionId}`;
         return await firstValueFrom(this.httpService.delete(url, header).pipe(map((item) => item.data)));

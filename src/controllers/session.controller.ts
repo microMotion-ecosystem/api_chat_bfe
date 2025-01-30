@@ -54,6 +54,14 @@ export class SessionController {
             return ResponseDto.handleCatchError(error)
         }   
     }
+    @Put('rename/:sessionId')
+    async renameSession(@Body() body: any,@Headers() header:any,@Param('sessionId')sessionId:string):Promise<any>{
+        try {
+            return this.sessionService.renameSession(body,header,sessionId)
+        } catch (error) {
+            return ResponseDto.handleCatchError(error)
+        }   
+    }
     @Delete('removeParticipant/:sessionId')
     async removeParticipantSession(@Body() body: any,@Headers() header:any,@Param('sessionId')sessionId:string):Promise<any>{
         try {
