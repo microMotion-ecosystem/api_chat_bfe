@@ -46,6 +46,7 @@ export class MessageController {
     try {
       return this.messageService.createMessage(body, header);
     } catch (error) {
+      console.log('erroreeeeeeeeeeeee', error);
       return ResponseDto.handleCatchError(error);
     }
   }
