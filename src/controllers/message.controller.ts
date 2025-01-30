@@ -7,6 +7,7 @@ import {
   Param,
   Patch,
   Post,
+  Put,
   Request,
 } from '@nestjs/common';
 import { ResponseDto } from 'src/dtos/response.dto';
@@ -48,7 +49,7 @@ export class MessageController {
       return ResponseDto.handleCatchError(error);
     }
   }
-  @Patch(':messageId')
+  @Put(':messageId')
   async updateMessage(
     @Body() body: any,
     @Headers() header: any,

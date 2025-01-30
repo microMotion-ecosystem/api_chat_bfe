@@ -34,7 +34,7 @@ export class MessageService {
   async updateMessage(data: any, header: any, messageId: string): Promise<any> {
     const url = `${this.baseUrl}/${messageId}`;
     return await firstValueFrom(
-      this.httpService.patch(url, data, header).pipe(map((item) => item.data)),
+      this.httpService.put(url, data, header).pipe(map((item) => item.data)),
     );
   }
   async removeMessage(header: any, messageId: string): Promise<any> {
