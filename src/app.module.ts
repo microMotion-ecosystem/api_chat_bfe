@@ -16,7 +16,7 @@ import { RequestsLoggerMiddleware } from './core/requests-logger/requests-logger
 import { APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core';
 import { LoggerInterceptor } from './core/requests-logger/requests-logger.interceptor';
 import { AddXClientServiceNameInterceptor } from './core/add-xclient-service-name/add-xclient-service-name.interceptor';
-import { MyHttpService } from "./core/my-http-client-service/my-http.service";
+import { MyHttpService } from './core/my-http-client-service/my-http.service';
 import { LlmController } from './controllers/llm.controller';
 import { LlmService } from './services/llm.service';
 import { AuthProxyService } from './services/auth-proxy.service';
@@ -26,10 +26,19 @@ import { ChatService } from './services/chat.service';
 import { SessionService } from './services/session.service';
 import { SessionController } from './controllers/session.controller';
 import { CatchAppExceptionsFilter } from './core/error-handling/error.filter';
+import { MessageController } from './controllers/message.controller';
+import { MessageService } from './services/message.service';
 
 @Module({
   imports: [MongodbModule, HttpModule, RabbitMqConfigModule],
-  controllers: [AppController, LlmController, AuthController, ChatController, SessionController],
+  controllers: [
+    AppController,
+    LlmController,
+    AuthController,
+    ChatController,
+    SessionController,
+    MessageController,
+  ],
   providers: [
     AppService,
     AuthApiService,
@@ -38,6 +47,7 @@ import { CatchAppExceptionsFilter } from './core/error-handling/error.filter';
     LlmService,
     AuthProxyService,
     ChatService,
+    MessageService,
     {
       provide: APP_INTERCEPTOR,
       useClass: LoggerInterceptor,
@@ -48,7 +58,6 @@ import { CatchAppExceptionsFilter } from './core/error-handling/error.filter';
     },
     SessionService,
     { provide: APP_FILTER, useClass: CatchAppExceptionsFilter },
-
   ],
 })
 export class AppModule implements NestModule {
