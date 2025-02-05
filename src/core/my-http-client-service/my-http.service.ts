@@ -43,7 +43,7 @@ export class MyHttpService {
       headers: {
         'lang':mainHeader['lang'] || 'en',
         'content-type': mainHeader['content-type'] || 'application/json',
-        'x-platform': 'fuse',
+        'x-platform': mainHeader['x-platform'],
         'x-correlation-id': mainHeader['x-correlation-id'],
         authorization: mainHeader['authorization'],
         'x-client-service': mainHeader['x-client-service'],
@@ -78,7 +78,7 @@ export class MyHttpService {
 
   patch<T = any>(url: string, data?: any, mainHeader?: any, config?: AxiosRequestConfig): Observable<AxiosResponse<T>> {
     const _config = this._prepareHeaders(mainHeader, config);
-    return this.httpService.patch<T>(url, _config);
+    return this.httpService.patch<T>(url,data, _config);
   }
   handelFilter(query: any): string {
     const queryParams: string[] = [];
