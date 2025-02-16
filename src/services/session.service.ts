@@ -49,6 +49,14 @@ export class SessionService {
         return await firstValueFrom(this.httpService.delete(url, header).pipe(map((item) => item.data)));
     }
 
+    async enableLLM(data:any,header:any,sessionId: string):Promise<any>{
+        const url = `${this.baseUrl}/enable_llm/${sessionId}`;
+        return await firstValueFrom(this.httpService.patch(url, data, header).pipe(map((item) => item.data)));
+    }
+    async disableLLM(data:any,header:any,sessionId: string):Promise<any>{
+        const url = `${this.baseUrl}/disable_llm/${sessionId}`;
+        return await firstValueFrom(this.httpService.patch(url, data, header).pipe(map((item) => item.data)));
+    }
 
 
 }

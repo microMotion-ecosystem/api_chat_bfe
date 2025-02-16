@@ -70,6 +70,22 @@ export class SessionController {
             return ResponseDto.handleCatchError(error)
         }   
     }
+    @Put('enable_llm/:sessionId')
+    async enableLLM(@Body() body: any,@Headers() header:any,@Param('sessionId')sessionId:string):Promise<any>{
+        try {
+            return this.sessionService.enableLLM(body,header,sessionId)
+        } catch (error) {
+            return ResponseDto.handleCatchError(error)
+        }   
+    }
+    @Put('disable_llm/:sessionId')
+    async disableLLM(@Body() body: any,@Headers() header:any,@Param('sessionId')sessionId:string):Promise<any>{
+        try {
+            return this.sessionService.disableLLM(body,header,sessionId)
+        } catch (error) {
+            return ResponseDto.handleCatchError(error)
+        }   
+    }
     @Delete(':sessionId')
     async removeSession(@Headers() header:any,@Param('sessionId')sessionId:string):Promise<any>{
         try {
