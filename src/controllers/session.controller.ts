@@ -78,6 +78,19 @@ export class SessionController {
             return ResponseDto.handleCatchError(error)
         }   
     }
+    @Put('acceptInvitation/:code')
+    async acceptInvitation(
+        @Body() body: any,
+        @Headers() header:any,
+        @Param('code')code:string,
+        @Request() req: ExpressRequest
+    ):Promise<any>{
+        try {
+            return this.sessionService.acceptJoinInvitation(body,header,code, req)
+        } catch (error) {
+            return ResponseDto.handleCatchError(error)
+        }   
+    }
     @Put('disable_llm/:sessionId')
     async disableLLM(@Body() body: any,@Headers() header:any,@Param('sessionId')sessionId:string):Promise<any>{
         try {
