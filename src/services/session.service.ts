@@ -38,7 +38,7 @@ export class SessionService {
     }
     async removeParticipantSession(data:any,header:any,sessionId: string):Promise<any>{
         const url = `${this.baseUrl}/removeParticipant/${sessionId}`;
-        return await firstValueFrom(this.httpService.delete(url, data, header).pipe(map((item) => item.data)));
+        return await firstValueFrom(this.httpService.patch(url, data, header).pipe(map((item) => item.data)));
     }
     async renameSession(data:any,header:any,sessionId: string):Promise<any>{
         const url = `${this.baseUrl}/rename/${sessionId}`;
@@ -49,6 +49,20 @@ export class SessionService {
         return await firstValueFrom(this.httpService.delete(url, header).pipe(map((item) => item.data)));
     }
 
+    async acceptJoinInvitation(data: any, header:any,code: string, req:ExpressRequest):Promise<any>{
+        const url = `${this.baseUrl}/acceptInvitation/${code}`;
+        return await firstValueFrom(this.httpService.patch(url, data, header).pipe(map((item) => item.data)));
+    }
+
+
+    async enableLLM(data:any,header:any,sessionId: string):Promise<any>{
+        const url = `${this.baseUrl}/enable_llm/${sessionId}`;
+        return await firstValueFrom(this.httpService.patch(url, data, header).pipe(map((item) => item.data)));
+    }
+    async disableLLM(data:any,header:any,sessionId: string):Promise<any>{
+        const url = `${this.baseUrl}/disable_llm/${sessionId}`;
+        return await firstValueFrom(this.httpService.patch(url, data, header).pipe(map((item) => item.data)));
+    }
 
 
 }
