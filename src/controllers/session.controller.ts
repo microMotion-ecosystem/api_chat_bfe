@@ -62,7 +62,7 @@ export class SessionController {
             return ResponseDto.handleCatchError(error)
         }   
     }
-    @Delete('removeParticipant/:sessionId')
+    @Put('removeParticipant/:sessionId')
     async removeParticipantSession(@Body() body: any,@Headers() header:any,@Param('sessionId')sessionId:string):Promise<any>{
         try {
             return this.sessionService.removeParticipantSession(body,header,sessionId)

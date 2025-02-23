@@ -38,7 +38,7 @@ export class SessionService {
     }
     async removeParticipantSession(data:any,header:any,sessionId: string):Promise<any>{
         const url = `${this.baseUrl}/removeParticipant/${sessionId}`;
-        return await firstValueFrom(this.httpService.delete(url, data, header).pipe(map((item) => item.data)));
+        return await firstValueFrom(this.httpService.patch(url, data, header).pipe(map((item) => item.data)));
     }
     async renameSession(data:any,header:any,sessionId: string):Promise<any>{
         const url = `${this.baseUrl}/rename/${sessionId}`;
@@ -50,8 +50,7 @@ export class SessionService {
     }
 
     async acceptJoinInvitation(data: any, header:any,code: string, req:ExpressRequest):Promise<any>{
-        const queryString:string=req.url.split('?')[1]||''
-        const url = `${this.baseUrl}/acceptInvitation/${code}?${queryString}`;
+        const url = `${this.baseUrl}/acceptInvitation/${code}`;
         return await firstValueFrom(this.httpService.patch(url, data, header).pipe(map((item) => item.data)));
     }
 
