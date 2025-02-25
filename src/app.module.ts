@@ -69,6 +69,10 @@ export class AppModule implements NestModule {
         RequestsLoggerMiddleware,
         /* , otherMiddleWare */
       )
+      .exclude(
+        { path: 'api/v1/auth/google', method: RequestMethod.ALL },
+        { path: 'api/v1/auth/google/callback', method: RequestMethod.ALL },
+      )
       .forRoutes(
         { path: '*', method: RequestMethod.ALL } /* OR AppController */,
       );

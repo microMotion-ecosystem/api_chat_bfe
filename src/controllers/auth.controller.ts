@@ -1,9 +1,10 @@
-import { Body, Controller, Post, Headers, Put, Param, Get, Delete, Query } from '@nestjs/common';
+import { Body, Controller, Post, Headers, Put, Param, Get, Delete, Query, Res, Req } from '@nestjs/common';
 import { AuthProxyService } from '../services/auth-proxy.service';
 import { ResponseDto } from '../dtos/response.dto';
 import { ApiOperation, ApiResponse, ApiParam, ApiQuery, ApiBody, ApiBearerAuth } from '@nestjs/swagger';
+import { Response } from 'express';
 
-@Controller('api/auth')
+@Controller('api/v1/auth')
 export class AuthController {
   constructor(private authService: AuthProxyService) {}
 
@@ -31,6 +32,26 @@ export class AuthController {
     } catch (error) {
       return ResponseDto.handleCatchError(error);
     }
+  }
+  @Post('sign-up')
+  @ApiOperation({ summary: 'Sign-up a user' })
+  @ApiBody({ description: 'User data for sign-up', type: Object })
+  @ApiResponse({ status: 200, description: 'Register successful' })
+  @ApiResponse({ status: 400, description: 'User already exists' })
+  async signUp(@Body() body: any, @Headers() header: any): Promise<any> {
+    try {
+     return await this.authService.signUp(body, header);
+    } catch (error) {
+      return ResponseDto.handleCatchError(error);
+    }
+  }
+  @Get('google')
+  @ApiOperation({ summary: 'sgin-up with google' })
+  @ApiResponse({ status: 200, description: 'Register successful' })
+  async authGoogle(@Req() req,@Res() res: Response) {
+      return res.redirect(`${process.env.URL_AUTH_SERVICE}/api/v1/auth/google`);
+
+  
   }
 
   @Post('create-user')
@@ -160,11 +181,6 @@ export class AuthController {
   signInWithToken(@Body() body) {
     return ResponseDto.ok(body);
   }
-
-  @Post('sign-up')
-  @ApiOperation({ summary: 'Sign up a new user' })
-  @ApiResponse({ status: 200, description: 'User successfully signed up.' })
-  signUp() {}
 
   @Post('unlock-session')
   @ApiOperation({ summary: 'Unlock user session' })

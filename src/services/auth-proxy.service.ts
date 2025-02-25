@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { MyHttpService } from '../core/my-http-client-service/my-http.service';
 import * as process from 'node:process';
-import { LoginDto } from '../dtos/login.dto';
 import { firstValueFrom, last, lastValueFrom, map } from 'rxjs';
 
 @Injectable()
@@ -10,12 +9,22 @@ export class AuthProxyService {
   // reset-password-send-otp
   // reset-password-verify-otp
 
-  baseUrl = process.env.URL_AUTH_SERVICE + '/api/auth';
+  baseUrl = process.env.URL_AUTH_SERVICE + '/api/v1/auth';
 
-  async signIn(body: LoginDto, header: any) {
+  async signIn(body: any, header: any) {
     return lastValueFrom(
       this.httpService.post(
         this.baseUrl + '/login',
+        body,
+
+        header,
+      ),
+    );
+  }
+  async signUp(body: any, header: any) {
+    return lastValueFrom(
+      this.httpService.post(
+        this.baseUrl + '/register',
         body,
 
         header,
@@ -32,7 +41,7 @@ export class AuthProxyService {
     const queryStr = this.httpService.handelFilter(query);
     return lastValueFrom(this.httpService.get(`${this.baseUrl}?${queryStr}`, header).pipe(map((item) => item.data)));
   }
-  async createUser(body: LoginDto, header: any) {
+  async createUser(body: any, header: any) {
     return lastValueFrom(
       this.httpService.post(this.baseUrl + '/create-user', body, header).pipe(map((item) => item.data)),
     );
