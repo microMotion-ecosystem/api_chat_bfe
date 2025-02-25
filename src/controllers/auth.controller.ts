@@ -50,7 +50,7 @@ export class AuthController {
   @ApiOperation({ summary: 'sgin-up with google' })
   @ApiResponse({ status: 200, description: 'Register successful' })
   async authGoogle(@Req() req,@Res() res: Response) {
-      return res.redirect(`${process.env.URL_AUTH_SERVICE}/api/v1/auth/google`);
+      return res.redirect(`${process.env.URL_AUTH_SERVICE_SERVER}/api/v1/auth/google`);
 
   
   }
