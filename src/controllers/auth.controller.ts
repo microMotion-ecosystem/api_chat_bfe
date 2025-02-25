@@ -38,9 +38,10 @@ export class AuthController {
   @ApiBody({ description: 'User data for sign-up', type: Object })
   @ApiResponse({ status: 200, description: 'Register successful' })
   @ApiResponse({ status: 400, description: 'User already exists' })
-  async signUp(@Body() body: any, @Headers() header: any): Promise<any> {
+  async signUp(@Body() body: any, @Headers() header: any): Promise<ResponseDto<any>> {
     try {
-     return await this.authService.signUp(body, header);
+      const res = await this.authService.signUp(body, header);
+      return ResponseDto.ok(res.data);
     } catch (error) {
       return ResponseDto.handleCatchError(error);
     }
