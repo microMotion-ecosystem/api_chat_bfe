@@ -36,6 +36,7 @@ function registerMicroservice(
       * then you can emit event like this:
       * this.client.emit<any>('event-name', 'ay haga');
       */
+      registerMicroservice('CHECK_USER_SERVICE', 'fuse_auth_queue'),
       // registerMicroservice('AUTH_MQ_SERVICE','user_profile_service.to.auth_service'),
       // registerMicroservice('RABBITMQ_SERVICE2', 'to.logger_service'),
     ]),
