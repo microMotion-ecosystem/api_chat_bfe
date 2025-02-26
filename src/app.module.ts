@@ -28,6 +28,8 @@ import { SessionController } from './controllers/session.controller';
 import { CatchAppExceptionsFilter } from './core/error-handling/error.filter';
 import { MessageController } from './controllers/message.controller';
 import { MessageService } from './services/message.service';
+import { CheckUserService } from './api-services/check-user/check-user.service';
+import { GateWaySocket } from './services/gateway.bfe.events.ts';
 
 @Module({
   imports: [MongodbModule, HttpModule, RabbitMqConfigModule],
@@ -47,6 +49,8 @@ import { MessageService } from './services/message.service';
     LlmService,
     AuthProxyService,
     ChatService,
+    CheckUserService,
+    GateWaySocket,
     MessageService,
     {
       provide: APP_INTERCEPTOR,
