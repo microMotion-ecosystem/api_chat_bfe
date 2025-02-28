@@ -1,14 +1,9 @@
 import { OnModuleInit, UseGuards } from "@nestjs/common";
-import { MessageBody, OnGatewayDisconnect, OnGatewayInit, SubscribeMessage, WebSocketGateway, WebSocketServer } from "@nestjs/websockets";
+import { OnGatewayDisconnect, SubscribeMessage, WebSocketGateway, WebSocketServer } from "@nestjs/websockets";
 import { Server } from "socket.io";
-import { session } from "passport";
 import { Socket } from "socket.io";
-// import { CheckUserService } from "../api-services/check-user/check-user.service";
-import { JwtAuthGuard } from "src/core/jwt-auth-guard/jwt-auth.guard";
 import { WsAuthGuard } from "src/core/jwt-auth-guard/ws-auth.guard";
 import { CheckUserService } from "src/api-services/check-user/check-user.service";
-import Redis from "ioredis";
-import { createAdapter } from "@socket.io/redis-adapter";
 import { io, Socket as ClientSocket } from 'socket.io-client';
 
 @WebSocketGateway({
@@ -55,66 +50,48 @@ export class GateWaySocket implements OnModuleInit, OnGatewayDisconnect {
     }
     setRemoteListeners(){
         this.clientToServer2.on('recieve-message', (data) => {
-            console.log('Received "recieve-message" from Server 2:', data);
             this.server.to(data.sessionId).emit('recieve-messages', {data: data.body});
         });
         this.clientToServer2.on('chat-message-created', (data) => {
-            // console.log('Received "recieve-message" from Server 2:', {data: data.body});
             this.server.to(data.sessionId).emit('chat-message-created', {data: data.body});
         });
         this.clientToServer2.on('user-message-created', (data) => {
-            // console.log('Received "recieve-message" from Server 2:', {data: data.body});
             this.server.to(data.sessionId).emit('user-message-created', {data: data.body});
         });
         this.clientToServer2.on('recommended-session-title', (data) => {
-            // console.log('Received "recieve-message" from Server 2:', {data: data.body});
             this.server.to(data.sessionId).emit('recommended-session-title', {data: data.body});
         });
         this.clientToServer2.on('message-updated', (data) => {
-            // console.log('Received "recieve-message" from Server 2:', {data: data.body});
             this.server.to(data.sessionId).emit('message-updated', {data: data.body});
         });
         this.clientToServer2.on('message-deleted', (data) => {
-            // console.log('Received "recieve-message" from Server 2:', {data: data.body});
             this.server.to(data.sessionId).emit('message-deleted', {data: data.body});
         });
         this.clientToServer2.on('participant-added', (data) => {
-            // console.log('Received "recieve-message" from Server 2:', {data: data.body});
-            console.log('participant added')
             this.server.to(data.sessionId).emit('participant-added', {data: data.body});
         });
         this.clientToServer2.on('participant-removed', (data) => {
-            // console.log('Received "recieve-message" from Server 2:', {data: data.body});
-            console.log('participant removed')
             this.server.to(data.sessionId).emit('participant-removed', {data: data.body});
         });
         this.clientToServer2.on('session-renamed', (data) => {
-            // console.log('Received "recieve-message" from Server 2:', {data: data.body});
             this.server.to(data.sessionId).emit('session-renamed', {data: data.body});
         });
         this.clientToServer2.on('llm-enabled', (data) => {
-            console.log('enabled llm nowwwwwww', {data: data.body});
-            console.log('helloooooooooooooo')
             this.server.to(data.sessionId).emit('llm-enabled', {data: data.body});
         });
         this.clientToServer2.on('llm-disabled', (data) => {
-            // console.log('Received "recieve-message" from Server 2:', {data: data.body});
             this.server.to(data.sessionId).emit('llm-disabled', {data: data.body});
         });
         this.clientToServer2.on('session-deleted', (data) => {
-            // console.log('Received "recieve-message" from Server 2:', {data: data.body});
             this.server.to(data.sessionId).emit('session-deleted', {data: data.body});
         });
         this.clientToServer3.on('stream-data', (data) => {
-            console.log('Received "recieve-message" from Server 3:', data);
             this.server.to(data.sessionId).emit('stream-data', {data: data.body});
         });
         this.clientToServer3.on('stream-end', (data) => {
-            // console.log('Received "recieve-message" from Server 2:', {data: data.body});
             this.server.to(data.sessionId).emit('stream-end', {data: data.body});
         });
         this.clientToServer3.on('stream-error', (data) => {
-            // console.log('Received "recieve-message" from Server 2:', {data: data.body});
             this.server.to(data.sessionId).emit('stream-end', {data: data.body});
         });
 
