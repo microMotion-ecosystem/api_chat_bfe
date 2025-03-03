@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { MyHttpService } from '../core/my-http-client-service/my-http.service';
 import * as process from 'node:process';
 import { firstValueFrom, last, lastValueFrom, map } from 'rxjs';
+import { Request as ExpressRequest } from 'express';
 
 @Injectable()
 export class AuthProxyService {
@@ -77,5 +78,10 @@ export class AuthProxyService {
   async verifyPassword(data:any,header:any):Promise<any>{
     const url =`${this.baseUrl}/verify-password`;
     return await firstValueFrom(this.httpService.post(url, data, header).pipe(map((item) => item.data)));
+  }
+  async loginWithGoogle (req:ExpressRequest,header:any){
+    const queryString:string=req.url.split('?')[1]||''
+    return lastValueFrom(this.httpService.get(`${this.baseUrl}/google/callback?${queryString}`, header).pipe(map((item) => item.data)));
+
   }
 }

@@ -1,8 +1,9 @@
-import { Body, Controller, Post, Headers, Put, Param, Get, Delete, Query, Res, Req } from '@nestjs/common';
+import { Body, Controller, Post, Headers, Put, Param, Get, Delete, Query, Res, Request } from '@nestjs/common';
 import { AuthProxyService } from '../services/auth-proxy.service';
 import { ResponseDto } from '../dtos/response.dto';
 import { ApiOperation, ApiResponse, ApiParam, ApiQuery, ApiBody, ApiBearerAuth } from '@nestjs/swagger';
 import { Response } from 'express';
+import { Request as ExpressRequest } from 'express';
 
 @Controller('api/v1/auth')
 export class AuthController {
@@ -46,12 +47,15 @@ export class AuthController {
       return ResponseDto.handleCatchError(error);
     }
   }
-  @Get('google')
+  @Get('/google')
   @ApiOperation({ summary: 'sgin-up with google' })
   @ApiResponse({ status: 200, description: 'Register successful' })
-  async authGoogle(@Req() req,@Res() res: Response) {
-      return res.redirect(`${process.env.URL_AUTH_SERVICE_SERVER}/api/v1/auth/google`);
-
+  async authGoogle(@Request() req: ExpressRequest,@Headers() header: any) {
+    try {
+      return await this.authService.loginWithGoogle(req,header);
+    } catch (error) {
+      return ResponseDto.handleCatchError(error);
+    }
   
   }
 
